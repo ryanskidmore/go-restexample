@@ -57,13 +57,13 @@ func UpdateCertificateHandler(c *gin.Context) {
 	err := c.BindJSON(&UpdatedCert)
 	if err != nil {
 		c.AbortWithStatus(400)
-		log.Println("PUT /certificates/[:id]: Failed to update certificate (failed to bind post body to object: " + err.Error() + ")")
+		log.Println("PUT /certificates/:id: Failed to update certificate (failed to bind post body to object: " + err.Error() + ")")
 		return
 	}
 	CertID := c.Param("id")
 	if CertID == "" {
 		c.AbortWithStatus(400)
-		log.Println("PUT /certificates/[:id]: Failed to update certificate (missing ID Parameter)")
+		log.Println("PUT /certificates/:id: Failed to update certificate (missing id Parameter)")
 		return
 	}
 	if Cert, Exists := Certificates[CertID]; Exists {
@@ -72,19 +72,19 @@ func UpdateCertificateHandler(c *gin.Context) {
 			Cert.Year = UpdatedCert.Year
 			Cert.Note = UpdatedCert.Note
 			Certificates[CertID] = Cert
-			log.Println("PUT /certificates/[:id]: Successfully updated certificate (" + Cert.Id + ": " + Cert.Title + ")")
+			log.Println("PUT /certificates/:id: Successfully updated certificate (" + Cert.Id + ": " + Cert.Title + ")")
 			c.JSON(200, map[string]string{
 				"status": "success",
 				"id":     Cert.Id,
 			})
 		} else {
 			c.AbortWithStatus(401)
-			log.Println("PUT /certificates/[:id]: Failed to update certificate (user isn't owner of certificate)")
+			log.Println("PUT /certificates/:id: Failed to update certificate (user isn't owner of certificate)")
 			return
 		}
 	} else {
 		c.AbortWithStatus(404)
-		log.Println("PUT /certificates/[:id]: Failed to update certificate (certificate with ID doesn't exist)")
+		log.Println("PUT /certificates/:id: Failed to update certificate (certificate with ID doesn't exist)")
 		return
 	}
 }
@@ -97,25 +97,25 @@ func DeleteCertificateHandler(c *gin.Context) {
 	CertID := c.Param("id")
 	if CertID == "" {
 		c.AbortWithStatus(400)
-		log.Println("DELETE /certificates/[:id]: Failed to delete certificate (missing ID Parameter)")
+		log.Println("DELETE /certificates/:id: Failed to delete certificate (missing id Parameter)")
 		return
 	}
 	if Cert, Exists := Certificates[CertID]; Exists {
 		if Cert.OwnerId == User.Id {
 			delete(Certificates, CertID)
-			log.Println("DELETE /certificates/[:id]: Successfully deleted certificate (" + Cert.Id + ": " + Cert.Title + ")")
+			log.Println("DELETE /certificates/:id: Successfully deleted certificate (" + Cert.Id + ": " + Cert.Title + ")")
 			c.JSON(200, map[string]string{
 				"status": "success",
 				"id":     Cert.Id,
 			})
 		} else {
 			c.AbortWithStatus(401)
-			log.Println("DELETE /certificates/[:id]: Failed to delete certificate (user isn't owner of certificate)")
+			log.Println("DELETE /certificates/:id: Failed to delete certificate (user isn't owner of certificate)")
 			return
 		}
 	} else {
 		c.AbortWithStatus(404)
-		log.Println("DELETE /certificates/[:id]: Failed to delete certificate (certificate with ID doesn't exist)")
+		log.Println("DELETE /certificates/:id: Failed to delete certificate (certificate with id doesn't exist)")
 		return
 	}
 }
