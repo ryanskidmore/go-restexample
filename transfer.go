@@ -5,8 +5,8 @@ import (
 )
 
 type Transfer struct {
-	to     *User
-	status string
+	To     *User
+	Status string
 }
 
 func CreateTransferHandler(c *gin.Context) {
