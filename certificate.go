@@ -27,13 +27,19 @@ func NewCertificateHandler(c *gin.Context) {
 	var Cert Certificate
 	err := c.BindJSON(&Cert)
 	if err != nil {
-		c.AbortWithStatus(400)
+		c.JSON(400, map[string]string{
+			"status": "failed",
+			"error":  "Malformed Request",
+		})
 		log.Println("POST /certificates: Failed to add new certificate (failed to bind post body to object: " + err.Error() + ")")
 		return
 	}
 	RandUUID, err := uuid.NewV4()
 	if err != nil {
-		c.AbortWithStatus(500)
+		c.JSON(500, map[string]string{
+			"status": "failed",
+			"error":  "Internal Server Error",
+		})
 		log.Println("POST /certificates: Failed to add new certificate (failed to generate UUIDv4: " + err.Error() + ")")
 		return
 	}
@@ -56,13 +62,19 @@ func UpdateCertificateHandler(c *gin.Context) {
 	var UpdatedCert Certificate
 	err := c.BindJSON(&UpdatedCert)
 	if err != nil {
-		c.AbortWithStatus(400)
+		c.JSON(400, map[string]string{
+			"status": "failed",
+			"error":  "Malformed Request",
+		})
 		log.Println("PUT /certificates/:id: Failed to update certificate (failed to bind post body to object: " + err.Error() + ")")
 		return
 	}
 	CertID := c.Param("id")
 	if CertID == "" {
-		c.AbortWithStatus(400)
+		c.JSON(400, map[string]string{
+			"status": "failed",
+			"error":  "Malformed Request: Missing id parameter",
+		})
 		log.Println("PUT /certificates/:id: Failed to update certificate (missing id Parameter)")
 		return
 	}
@@ -78,12 +90,18 @@ func UpdateCertificateHandler(c *gin.Context) {
 				"id":     Cert.Id,
 			})
 		} else {
-			c.AbortWithStatus(401)
+			c.JSON(401, map[string]string{
+				"status": "failed",
+				"error":  "Invalid User: You are not the owner of this certificate",
+			})
 			log.Println("PUT /certificates/:id: Failed to update certificate (user isn't owner of certificate)")
 			return
 		}
 	} else {
-		c.AbortWithStatus(404)
+		c.JSON(404, map[string]string{
+			"status": "failed",
+			"error":  "Certificate doesn't exist",
+		})
 		log.Println("PUT /certificates/:id: Failed to update certificate (certificate with ID doesn't exist)")
 		return
 	}
@@ -96,7 +114,10 @@ func DeleteCertificateHandler(c *gin.Context) {
 	}
 	CertID := c.Param("id")
 	if CertID == "" {
-		c.AbortWithStatus(400)
+		c.JSON(400, map[string]string{
+			"status": "failed",
+			"error":  "Malformed Request: Missing id parameter",
+		})
 		log.Println("DELETE /certificates/:id: Failed to delete certificate (missing id Parameter)")
 		return
 	}
@@ -109,12 +130,18 @@ func DeleteCertificateHandler(c *gin.Context) {
 				"id":     Cert.Id,
 			})
 		} else {
-			c.AbortWithStatus(401)
+			c.JSON(401, map[string]string{
+				"status": "failed",
+				"error":  "Invalid User: You are not the owner of this certificate",
+			})
 			log.Println("DELETE /certificates/:id: Failed to delete certificate (user isn't owner of certificate)")
 			return
 		}
 	} else {
-		c.AbortWithStatus(404)
+		c.JSON(404, map[string]string{
+			"status": "failed",
+			"error":  "Certificate doesn't exist",
+		})
 		log.Println("DELETE /certificates/:id: Failed to delete certificate (certificate with id doesn't exist)")
 		return
 	}

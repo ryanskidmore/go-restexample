@@ -20,7 +20,10 @@ func GetCertificatesHandler(c *gin.Context) {
 	}
 	RequestedID := c.Param("userId")
 	if RequestedID == "" {
-		c.AbortWithStatus(400)
+		c.JSON(400, map[string]string{
+			"status": "failed",
+			"error":  "Malformed Request: missing userId parameter",
+		})
 		log.Println("GET /users/:userId/certificates: Failed to get users certificates (missing userId parameter)")
 		return
 	}
@@ -32,7 +35,10 @@ func GetCertificatesHandler(c *gin.Context) {
 			}
 		}
 	} else {
-		c.AbortWithStatus(401)
+		c.JSON(401, map[string]string{
+			"status": "failed",
+			"error":  "Invalid User: You are requesting another users certificates",
+		})
 		log.Println("GET /users/:userId/certificates: Failed to get users certificates (requesting another users certificates)")
 		return
 	}
@@ -45,13 +51,19 @@ func GetCertificatesHandler(c *gin.Context) {
 func GetUserOrError(c *gin.Context) *User {
 	Session := c.Request.Header.Get("Authorization")
 	if Session == "" {
-		c.AbortWithStatus(401)
+		c.JSON(401, map[string]string{
+			"status": "failed",
+			"error":  "No Authorization token",
+		})
 		return nil
 	}
 	if UserID, Exists := Sessions[Session]; Exists {
 		return Users[UserID]
 	} else {
-		c.AbortWithStatus(401)
+		c.JSON(401, map[string]string{
+			"status": "failed",
+			"error":  "Invalid Session",
+		})
 		return nil
 	}
 }
