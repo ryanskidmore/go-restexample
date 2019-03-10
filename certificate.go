@@ -75,7 +75,7 @@ func UpdateCertificateHandler(c *gin.Context) {
 			"status": "failed",
 			"error":  "Malformed Request: Missing id parameter",
 		})
-		log.Println("PUT /certificates/:id: Failed to update certificate (missing id Parameter)")
+		log.Println("PUT /certificates/:id: Failed to update certificate (missing id parameter)")
 		return
 	}
 	if Cert, Exists := Certificates[CertID]; Exists {
@@ -118,7 +118,7 @@ func DeleteCertificateHandler(c *gin.Context) {
 			"status": "failed",
 			"error":  "Malformed Request: Missing id parameter",
 		})
-		log.Println("DELETE /certificates/:id: Failed to delete certificate (missing id Parameter)")
+		log.Println("DELETE /certificates/:id: Failed to delete certificate (missing id parameter)")
 		return
 	}
 	if Cert, Exists := Certificates[CertID]; Exists {
