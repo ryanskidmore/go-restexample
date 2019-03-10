@@ -19,6 +19,7 @@ Below is documentation for the various endpoints implemented within this project
 
 ### POST /certificates
 Endpoint used to create a new certificate
+
 |Field|Value  |
 |--|--|
 |Headers|`Authorization: token`|
@@ -29,6 +30,7 @@ Endpoint used to create a new certificate
 
 ### PUT /certificates/:id
 Endpoint used to update a certificate
+
 |Field|Value  |
 |--|--|
 |Headers|`Authorization: token`|
@@ -40,6 +42,7 @@ Endpoint used to update a certificate
 
 ### DELETE /certificates/:id
 Endpoint used to delete a certificate
+
 |Field|Value  |
 |--|--|
 |Headers|`Authorization: token`|
@@ -50,6 +53,7 @@ Endpoint used to delete a certificate
 
 ### GET /users/:userId/certificates
 Endpoint used to get the certificates for a user
+
 |Field|Value  |
 |--|--|
 |Headers|`Authorization: token`|
@@ -60,6 +64,7 @@ Endpoint used to get the certificates for a user
 
 ### POST /certificates/:id/transfers
 Endpoint used to create a new certificate transfer
+
 |Field|Value  |
 |--|--|
 |Headers|`Authorization: token`|
@@ -71,6 +76,7 @@ Endpoint used to create a new certificate transfer
 
 ### PUT /certificates/:id/transfers
 Endpoint used to accept a certificate transfer
+
 |Field|Value  |
 |--|--|
 |Headers|`Authorization: token`|
