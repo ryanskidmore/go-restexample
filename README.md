@@ -12,7 +12,7 @@ This is a sample REST API written in Go, using the Gin framework.
  2. The project will then run on `localhost:8080`
 
 ## Tests
-TODO
+Run `go test` to run unit tests
 
 ## Consuming
 Below is documentation for the various endpoints implemented within this project and how to consume them.
